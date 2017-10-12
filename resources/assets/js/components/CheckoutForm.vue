@@ -10,6 +10,8 @@
         </select>
 
       <button type="submit" @click.prevent="subscribe">Subscribe</button>
+
+      <p class="help is-danger" v-show="status" v-text="status"> {{ status }}</p>
     </form>
 </template>
 
@@ -20,7 +22,9 @@
             return {
                 stripeEmail: '',
                 stripeToken: '',
-                plan: '1'
+                plan: 1,
+                status: false
+
             };
         },
         created () {
@@ -38,7 +42,10 @@
                     document.querySelector('#checkout-form').submit();*/
 
                    axios.post('/subscriptions', this.$data)
-                        .then(response => alert('Complete! Thanks four your payment!'));
+                        .then(
+                            response => alert('Complete! Thanks four your payment!'))
+                            .catch(error => this.status = error.response.data.status);
+            
                 }
             });
         },
