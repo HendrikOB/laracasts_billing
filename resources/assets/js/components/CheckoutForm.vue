@@ -1,8 +1,13 @@
 <template>
      <form action="/purchases" method="POST">
-
         <input type="hidden" name="stripeToken" v-model="stripeToken">
         <input type="hidden" name="stripeEmail" v-model="stripeEmail">
+
+        <select name="product" v-model="product">
+            <option v-for="product in products" :value="product.id">
+                {{ product.name }} &mdash; $ {{ product.price / 100}}
+            </option>
+        </select>
 
       <button type="submit" @click.prevent="buy">Buy my book</button>
     </form>
@@ -10,10 +15,12 @@
 
 <script>
     export default {
+        props: ['products'],
         data() {
             return {
                 stripeEmail: '',
-                stripeToken: ''
+                stripeToken: '',
+                product: '1'
             };
         },
         created () {
@@ -29,21 +36,24 @@
 
                     document.querySelector('#checkout-form').submit();*/
 
-
-
-                   this.axios.post('/purchases', this.$data)
-                        .then(response => alert('Compelte! Thanks four your payment!'));
+                   axios.post('/purchases', this.$data)
+                        .then(response => alert('Complete! Thanks four your payment!'));
                 }
             });
         },
         methods: {
             buy() {
+                let product = this.findProductById(this.product);
                 this.stripe.open({
-                    name: 'My Book',
-                    description: 'Some details about the book.',
+                    name: product.name,
+                    description: product.description,
                     zipCode: false,
-                    amount: 2500,
+                    amount: product.price,
                 });
+            },
+
+            findProductById(id) {
+                return this.products.find(product => product.id == id);
             }
         }
     }
