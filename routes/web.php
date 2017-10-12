@@ -12,9 +12,9 @@
 */
 
 Route::get('/', function () {
-	$products = App\Product::all();
+	$plans = App\Plan::all();
 	
-    return view('welcome', compact('products'));
+    return view('welcome', compact('plans'));
 });
 
-Route::post('purchases', 'PurchasesController@store');
+Route::post('subscriptions', 'SubscriptionsController@store');
