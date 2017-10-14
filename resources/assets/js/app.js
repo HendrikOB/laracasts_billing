@@ -15,7 +15,7 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('CheckoutForm', require('./components/CheckoutForm.vue'));
+Vue.component('checkoutForm', require('./components/CheckoutForm.vue'));
 
 const app = new Vue({
     el: '#app'
