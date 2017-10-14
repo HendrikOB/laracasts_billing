@@ -35,4 +35,9 @@ class User extends Authenticatable
             'stripe_active' => true
         ]);
     }
+
+    public function isSUbscribed()
+    {
+        return !! $this->stripe_active;
+    }
 }
