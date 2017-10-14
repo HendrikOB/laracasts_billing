@@ -11,7 +11,7 @@
 
       <button type="submit" @click.prevent="subscribe">Subscribe</button>
 
-      <p class="help is-danger" v-show="status" v-text="status"> {{ status }}</p>
+      <p class="help is-danger" v-show="status" v-text="status"></p>
     </form>
 </template>
 
@@ -33,19 +33,15 @@
                 image: "https://stripe.com/img/documentation/checkout/marketplace.png",
                 locale: "auto",
                 panelLabel: "Subscribe For",
+                email: Laracasts.user.email,
                 token: (token) => {
                     this.stripeToken = token.id;
                     this.stripeEmail = token.email;
-                    /*document.querySelector('#stripeEmail').value = token.email;
-                    document.querySelector('#stripeToken').value = token.id;
-
-                    document.querySelector('#checkout-form').submit();*/
 
                    axios.post('/subscriptions', this.$data)
                         .then(
                             response => alert('Complete! Thanks four your payment!'))
-                            .catch(error => this.status = error.response.data.status);
-            
+                            .catch(error => this.status = error.response.data.status);            
                 }
             });
         },

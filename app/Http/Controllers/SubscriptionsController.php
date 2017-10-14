@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Plan;
 use Illuminate\Http\Request;
 use Stripe\{Charge, Customer};
@@ -18,12 +19,16 @@ class SubscriptionsController extends Controller
                 'source' => request('stripeToken'),
                 'plan' => $plan->name
             ]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => $e->getMessage()], 422);
+        } catch (Exception $e) {
+            return response()->json(
+                ['status' => $e->getMessage()], 422
+            );
         }
 
-    	
+        request()->user()->activate($customer->id);
 
-    	return 'All done';
+        return [
+            'status' => 'Success!'
+        ];
     }
 }
