@@ -3,6 +3,7 @@
 namespace App;
 
 
+use App\Subscription;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -34,6 +35,11 @@ class User extends Authenticatable
             'stripe_id' => $customerId,
             'stripe_active' => true
         ]);
+    }
+
+    public function subscription()
+    {
+        return new Subscription($this);
     }
 
     public function isSUbscribed()
