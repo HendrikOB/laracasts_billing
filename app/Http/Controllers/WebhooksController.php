@@ -22,7 +22,7 @@ class WebhooksController extends Controller
 
     public function whenCustomerSubscriptionDeleted($payload)
     {
-    	User::where('stripe_id', $payload['data']['object']['customer'])->deactivate();
+    	User::byStripeId($payload['data']['object']['customer'])->deactivate();
     }
 
     public function eventToMethod($event)
