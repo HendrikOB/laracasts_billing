@@ -11,14 +11,16 @@
 |
 */
 
-Route::get('/', function () {
+/*Route::get('/', function () {
 	$plans = App\Plan::all();
 	
     return view('welcome', compact('plans'));
-});
+});*/
 
 Route::post('subscriptions', 'SubscriptionsController@store');
 
-Auth::routes();
+Route::get('home', 'HomeController@index')->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::post('stripe/webhook', 'WebhooksController@handle');
+
+Auth::routes();
